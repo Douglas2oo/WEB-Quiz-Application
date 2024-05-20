@@ -1,0 +1,14 @@
+#questionID {
+    font-weight: bold;
+}
+
+#feedback {
+    font-weight: bold;
+}
+
+#quiz-container {
+    border: 1px solid black;
+    align-items: center;
+    text-align: center;
+}
+
