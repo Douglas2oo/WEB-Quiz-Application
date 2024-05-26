@@ -52,6 +52,7 @@ function nextQuestion() {
 }
 
 function startTimer() {
+    clearInterval(timer);
     let time = 20;
     document.getElementById('timer').textContent = `Time to answer: ${time} seconds`;
     timer = setInterval(() => {
@@ -72,16 +73,18 @@ function totalTime() {
 
 function checkAnswer(index) {
     clearInterval(timer);
+    
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
 
     const socket = io();
-    
+
     // Send the answer to the server
     socket.emit('submit answer', { questionIndex: currentQuestion, answer: index });
-    
+
     // Receive the result from the server
     socket.on('answer result', (result) => {
-        console.log('Received answer result:', result);
-        document.getElementById('content').style.display = 'none';
+        document.getElementById('loading').style.display = 'none';
         if (result) {
             score++;
             document.getElementById('feedback').textContent = 'Your answer is correct!';
@@ -93,46 +96,38 @@ function checkAnswer(index) {
         } else {
             showResults();
         }
-    });
+        if (currentQuestion + 1 === questions.length) {
+            // if the last question is answered, sent the result to the server
+            socket.emit('load leaderboard', { username: localStorage.getItem('currentUsername'), score: score, Time: Time });
 
+            // Receive the updated leaderboard from the server
+            socket.on("update leaderboard", (leaderboard) => {
+                const leaderboardList = document.getElementById('leaderboard-list');
+                leaderboardList.innerHTML = '';
+
+                leaderboard.forEach((entry, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${entry.username}</td>
+                    <td>${entry.score} points</td>
+                    <td>${entry.Time || 0} seconds</td>
+                `;
+                    leaderboardList.appendChild(tr);
+                });
+
+                document.getElementById('leaderboard').style.display = 'block';
+            });
+
+            socket.emit('delete records');// Delete the records in the leaderboard
+        }
+    });
 }
 
 function showResults() {
-    const username = localStorage.getItem('currentUsername');
-
-    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-    leaderboard.push({ username, score, Time });
-    leaderboard.sort((a, b) => b.score - a.score || a.Time - b.Time);
-    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-
     document.getElementById('next-button').style.display = 'none';
     document.getElementById('result-screen').style.display = 'block';
     document.getElementById('score').textContent = `${score}`;
     document.getElementById('total').textContent = `${questions.length}`;
     document.getElementById('totalTime').textContent = `${Time}`;
-    showLeaderboard();
 }
-
-function showLeaderboard() {
-    const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-    const leaderboardList = document.getElementById('leaderboard-list');
-    leaderboardList.innerHTML = '';
-
-    leaderboard.sort((a, b) => b.score - a.score || a.totalTime - b.totalTime);
-
-    leaderboard.forEach((entry, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${entry.username}</td>
-            <td>${entry.score} points</td>
-            <td>${entry.Time || 0} seconds</td>
-        `;
-        leaderboardList.appendChild(tr);
-    });
-
-    document.getElementById('leaderboard').style.display = 'block';
-}
-
-// localStorage.removeItem('leaderboard'); 
-// Delete the records in the leaderboard
