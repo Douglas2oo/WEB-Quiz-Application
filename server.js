@@ -19,6 +19,8 @@ const questions = [
     { question: "Who is the all-time top scorer in UEFA Champions League history?", choices: ["Lionel Messi", "Robert Lewandowski", "Cristiano Ronaldo", "Karim Benzema"], correct: 2 }
 ];
 
+let leaderboard = [];
+
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
@@ -38,11 +40,28 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('load leaderboard', (data) => {
+        leaderboard.push(data);
+        // receive the result from the quiz page
+        // add the result to the leaderboard
+        leaderboard.sort((a, b) => b.score - a.score || a.Time - b.Time);
+
+        // sent the updated leaderboard back to the quiz page
+        socket.emit('update leaderboard', leaderboard);
+    });
+
+    socket.on('delete records', () => {
+        leaderboard = [];
+        // clear the leaderboard
+
+        socket.emit('update leaderboard', leaderboard);
+        // sent the updated leaderboard back to the quiz page
+    })
+
 });
 
-
-server.listen(8080, () => {
-    console.log('Listening on 8080');
+server.listen(3000, () => {
+    console.log('Listening on 3000');
 }).on('error', (err) => {
     console.error('Failed to start server:', err);
 });
