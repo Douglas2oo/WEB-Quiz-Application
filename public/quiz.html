@@ -1,51 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
+
 <head>
-    <title>About Page</title>
-    <link rel="stylesheet" type="text/css" href="./quiz.css">
-    <link rel="stylesheet" type="text/css" href="./total.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./BackgroundCSS/main.css">
+    <link rel="stylesheet" href="./BackgroundCSS/demo.css">
+    <link rel="stylesheet" href="./total.css">
+    <link rel="stylesheet" href="./quiz.css">
+    <title>Quiz</title>
 </head>
-<body>
 
-    <my-navbar></my-navbar>
-    
-    <iframe src="./components/navbar/navbar.html" frameborder="0"></iframe>
+<body class="light">
 
-    <h1>Quiz Page</h1>
-
-    <!-- 名字输入表格 -->
-    <div id="name-form">
-        <form onsubmit="startQuiz(); return false;">
-            <label for="name">Welcome to quiz! Give your name:</label><br>
-            <input type="text" id="username" placeholder="Enter your name">
-            <button type="submit">Start</button>
-        </form>
-    </div>
-
-    <!-- 问题表格，一开始隐藏 -->
-    <div id="quiz-container" style="display:none;">
-        <div id="question-screen">
-            <div id="content">
-                <div id="questionID"></div>
-                <div id="question">Question text</div>
-                <div id="choices">
-                <!-- Choice buttons will be added here dynamically -->
+    <div class="container">
+        <div id='surface'></div>
+        <div id='caustics'></div>
+        <div id='bg'></div>
+        <div id='sun'>
+            <div id='sun_layer1'></div>
+            <div id='sun_layer2'></div>
+            <div id='sun_layer3'></div>
+        </div>
+        <svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+            <filter id="noise1">
+                <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" seed="3" stitchTiles="stitch" />
+                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" />
+            </filter>
+        </svg>
+        <main>
+            <iframe src="./components/navbar/navbar.html" title="Navigation Bar"></iframe>
+            <div id="Page-container">
+                <h1>Quiz</h1>
+                <div id="name-form">
+                    <form onsubmit="startQuiz(); return false;">
+                        <p>The questions in this quiz cover some knowledge of basketball and football events, especially
+                            the NBA, Champions League, Premier League and Bundesliga.</p><br>
+                        <label for="username">Welcome to quiz! Give your name:</label><br>
+                        <input type="text" id="username" placeholder="Enter your name">
+                        <button id="nameSubmit" type="submit">Start</button>
+                    </form>
                 </div>
-                <div id="timer">Time to answer: 15 seconds</div>
-            </div>
-            
-            <div id="feedback">
 
-            </div>
+                <div id="quiz-container" style="display:none;">
+                    <div id="question-screen">
+                        <div id="content">
+                            <div id="questionID"></div>
+                            <div id="question">Question text</div>
+                            <div id="choices">
+                                <!-- Choice buttons will be added here dynamically -->
+                            </div>
+                            <div id="timer">Time to answer: 15 seconds</div>
+                        </div>
 
-            <button id="next-button" onclick="nextQuestion()" style="display:none;">Next Question</button>
-        </div>
-        <div id="result-screen" style="display:none;">
-            You completed all the questions!<br>
-            You got <span id="score"></span> out of <span id="total"></span>.
-        </div>
+                        <div id="nextQuestion">
+                            <div id="feedback"></div>
+
+                            <button id="next-button" onclick="nextQuestion()" style="display:none;">Next
+                                Question</button>
+                        </div>
+
+                    </div>
+                    <div id="result-screen" style="display:none;">
+                        You completed all the questions!<br><br>
+                        You got <span id="score"></span> out of <span id="total"></span>. <br>
+                        The total time used for answering: <span id="totalTime"></span> seconds. <br> <br>
+                        The leaderboard is located below.
+                    </div>
+
+                </div>
+            </div>
+            <div id="leaderboard" style="display: none;">
+                <h2>Leaderboard</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Score</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-list"></tbody>
+                </table>
+                <div style="height: 50px;"></div>
+            </div>
+            <div id="blankSpace"></div>
+        </main>
     </div>
 
     <script src="./quiz.js"></script>
+    <script src="./socket.io.js"></script>
+
+
+
 </body>
+
 </html>

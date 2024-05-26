@@ -1,17 +1,230 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>About Page</title>
-        <link rel="stylesheet" type="text/css" href="./about.css">
-        <link rel="stylesheet" type="text/css" href="./total.css">
-    </head>
-    <body>
+<html lang="en">
 
-        <my-navbar></my-navbar>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./BackgroundCSS/main.css">
+  <link rel="stylesheet" href="./BackgroundCSS/demo.css">
+  <link rel="stylesheet" href="./total.css">
+  <link rel="stylesheet" href="./about.css">
+  <title>More About Me</title>
+</head>
 
-        <iframe src="./components/navbar/navbar.html" frameborder="0"></iframe>
+<body class="light">
+  <div class="container">
+    <div id="surface"></div>
+    <div id="caustics"></div>
+    <div id="bg"></div>
+    <div id="sun">
+      <div id="sun_layer1"></div>
+      <div id="sun_layer2"></div>
+      <div id="sun_layer3"></div>
+    </div>
+    <svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+      <filter id="noise1">
+        <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" seed="3" stitchTiles="stitch" />
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" />
+      </filter>
+    </svg>
+    <main>
+      <!-- Navigation bar -->
+      <iframe src="./components/navbar/navbar.html" title="Navigation Bar"></iframe>
+      <div id="title">More About Me</div>
+      <section id="hobbies">
+        <div class="box">
+          <!-- Navigation column-->
+          <div class="left">
+            <a href="#hobbies">Hobbies</a>
+            <a href="#basketball">Basketball</a>
+            <a href="#football">Football</a>
+            <a href="#music">Music</a>
+          </div>
+          <div class="right">
+            <div class="one">
+              <h1>Hobbies</h1>
+              <p>
+                I don't think my hobbies are too broad, and I usually like to
+                listen to music and watch meaningful films or TV series.
+              </p>
+              <p>
+                Moreover, sometimes I like to go out and play basketball or
+                football with my friends when I have more free time.
+              </p>
+            </div>
+            <div>
+              <img src="./img/1.jpg" alt="Hobbies" class="photo">
+            </div>
+          </div>
+        </div>
+        <div style="height: 120px"></div>
+      </section>
+      <section id="basketball">
+        <div class="box">
+          <div class="left">
+            <a href="#hobbies">Hobbies</a>
+            <a href="#basketball">Basketball</a>
+            <a href="#football">Football</a>
+            <a href="#music">Music</a>
+          </div>
+          <div class="right">
+            <div class="one" id="basketballDescription">
+              <h1>Basketball</h1>
+              <p>
+                I started playing basketball when I was in primary school. But
+                at that time I didn't put effort in playing it well so it's
+                just a way for me to pass the leisure time and playing with my
+                friends.
+              </p>
+              <p>
+                However, as I fell in love with watching NBA basketball and
+                loved the players in it, I began playing basketball more
+                skillfully and competitively.
+              </p>
+              <p>
+                Now, I love the sport so much and am willing to spend a lot of
+                time working on my shooting and dribbling skills.
+              </p>
+            </div>
+            <div>
+              <!-- Picture slide container -->
+              <div class="slideshow-container">
+                <div class="mySlides1 fade">
+                  <div class="numbertext">1 / 3</div>
+                  <img src="./img/bask1.jpg" alt="Basketball 1" style="width:100%">
+                </div>
+                <div class="mySlides1 fade">
+                  <div class="numbertext">2 / 3</div>
+                  <img src="./img/bask2.jpg" alt="Basketball 2" style="width:100%">
+                </div>
+                <div class="mySlides1 fade">
+                  <div class="numbertext">3 / 3</div>
+                  <img src="./img/bask3.jpg" alt="Basketball 3" style="width:100%">
+                </div>
+              </div>
+              <br>
+              <div style="text-align:center">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="football">
+        <div class="box">
+          <div class="left">
+            <a href="#hobbies">Hobbies</a>
+            <a href="#basketball">Basketball</a>
+            <a href="#football">Football</a>
+            <a href="#music">Music</a>
+          </div>
+          <div class="right">
+            <div class="one" id="footballDescription">
+              <h1>Football</h1>
+              <p>
+                I also started playing football when I was in primary school.
+                At that time I used to play football with my friends in the
+                neighbourhood. I'm also a keen follower of football, and often
+                watch the Premier League and Bundesliga matches.
+                Unfortunately, there were few opportunities to play the sport
+                inside the school, and I grew to be unfamiliar with it.
+              </p>
+              <p>
+                And when I got into college, I found plenty of opportunities
+                to play football, and I have started playing it again. I'm not
+                a professional player, but I love the sport and enjoy playing
+                it with my friends. And now my friends and I often enjoy our
+                time playing football, watching football matches and playing
+                FIFA games together.
+              </p>
+            </div>
+            <div>
+              <div class="slideshow-container">
+                <div class="mySlides2 fade">
+                  <div class="numbertext">1 / 3</div>
+                  <img src="./img/football1.jpg" alt="Football 1" style="width:100%">
+                </div>
+                <div class="mySlides2 fade">
+                  <div class="numbertext">2 / 3</div>
+                  <img src="./img/football2.png" alt="Football 2" style="width:100%">
+                </div>
+                <div class="mySlides2 fade">
+                  <div class="numbertext">3 / 3</div>
+                  <img src="./img/football3.jpg" alt="Football 3" style="width:100%">
+                </div>
+              </div>
+              <br>
+              <div style="text-align:center">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="music">
+        <div class="box">
+          <div class="left">
+            <a href="#hobbies">Hobbies</a>
+            <a href="#basketball">Basketball</a>
+            <a href="#football">Football</a>
+            <a href="#music">Music</a>
+          </div>
+          <div class="right">
+            <div class="one" id="musicDescription">
+              <h1>Music</h1>
+              <p>
+                I can easily and happily do anything as long as I'm listening
+                to the music I want to hear. At the same time whatever I do, I
+                long to be able to do it listening to beautiful music.
+              </p>
+              <p>
+                I think music is a really great and amazing thing. It can make
+                people enchanted and forget time, and also can bring all kinds
+                of emotions to people.
+              </p>
+              <p>
+                Among all kinds of music, my favourites are pop music and R&B.
+              </p>
+              <p>
+                And Adele, Taylor Swift and Ed Sheeran are my favourite
+                singers.
+              </p>
+            </div>
+            <div>
+              <div class="slideshow-container">
+                <div class="mySlides3 fade">
+                  <div class="numbertext">1 / 3</div>
+                  <img src="./img/adele.png" alt="Adele" style="width:100%">
+                </div>
+                <div class="mySlides3 fade">
+                  <div class="numbertext">2 / 3</div>
+                  <img src="./img/taylor.png" alt="Taylor Swift" style="width:100%">
+                </div>
+                <div class="mySlides3 fade">
+                  <div class="numbertext">3 / 3</div>
+                  <img src="./img/ed.png" alt="Ed Sheeran" style="width:100%">
+                </div>
+              </div>
+              <br>
+              <div style="text-align:center">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div id="blankSpace"></div>
+    </main>
+  </div>
+  <script src="./socket.io.js"></script>
+  <script src="./about.js"></script>
+</body>
 
-        <h1>About Page</h1>
-
-    </body>
 </html>

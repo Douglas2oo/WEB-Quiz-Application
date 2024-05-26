@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+#blankSpace {
+    height: 250px;
+}
+
+.box {
+    width: 980px;
+    height: 540px;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 9%;
+}
+
+.center {
+    float: right;
+    width: 980px;
+    height: 540px;
+    background-color: rgba(152, 233, 233, 0.2);
+}
+
+.center > div {
+    float: left;
+    width: 470px;
+    height: 540px;
+    background: rgba(0, 0, 0, 0.2);
+    margin-left: 14px;
+    margin-bottom: 14px;
+}
+
+.center .one {
+    background-color: rgb(152, 233, 233, 0.2);
+}
+
+.center .photo {
+    width: 490px;
+    height: 540px;
+}
+
+.center .one h1 {
+    color: rgb(0, 0, 0);
+    font-size: 60px;
+    margin-top: -150px;
+}
+
+.center .one p {
+    font-size: 32px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    font-style: italic;
+}
+
+.right {
+    font-size: 35px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    font-style: italic;
+}
+
+.one {
+    margin-top: -18px;
+    border-radius: 30px;
+}
+
+.right p {
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+#more {
+    font-size: 23px;
+}

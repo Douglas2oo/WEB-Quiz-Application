@@ -1,15 +1,15 @@
 html, body {
     margin: 0;
     padding: 0;
-    width: 110%;
+    width: 100vw;
 }
 
+/* Navigation bar */
 iframe {
     top:0;
     left: 0;
     width: 100%;
     height: 100%;
-    margin-bottom: -15vh;
+    margin-bottom: -10vh;
+    border: 0;
 }
-
-

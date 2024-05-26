@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./BackgroundCSS/main.css">
+    <link rel="stylesheet" href="./BackgroundCSS/demo.css">
+    <link rel="stylesheet" href="./total.css">
+    <link rel="stylesheet" href="./index.css">
+    <title>Introduction</title>
+</head>
+
+<body class="light">
+
+
+    <div class="container">
+
+        <div id='surface'></div>
+        <div id='caustics'></div>
+        <div id='bg'></div>
+        <div id='sun'>
+            <div id='sun_layer1'></div>
+            <div id='sun_layer2'></div>
+            <div id='sun_layer3'></div>
+        </div>
+        <svg width="0" height="0" xmlns="http://www.w3.org/2000/svg">
+            <filter id="noise1">
+              <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="1" seed="3" stitchTiles="stitch" />
+              <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" />
+            </filter>
+          </svg>
+
+        <main>
+            <!-- Navigation bar -->
+            <iframe src="./components/navbar/navbar.html" title="Navigation Bar"></iframe>
+            <section>
+                <div class="box">
+                    <div class="center">
+                        <div class="one">
+                            <h1>Brief Introduction</h1>
+                            <br>
+                            <p>Hi! Nice to see you here!
+                            </p><br>
+                            <p>
+                                I am Daliang Shen. I am currently studying at South China Normal University, majoring in
+                                Software Engineering.
+                            </p>
+                        </div>
+                        <div class="right">
+                            <br>
+                            <p>I am keen to explore more knowledge about computer science and I am trying my best to
+                                learn more! Moreover, Machine learning and data science are two areas in particular that
+                                I want to delve into.</p><br>
+                            <p id="more">
+                                Click the <a href="./about.html" target="_parent">"More About Me"</a> button to know
+                                more about me!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="blankSpace"></div>
+        </main>
+    </div>
+    <script src="./index.js"></script>
+    <script src="./socket.io.js"></script>
+
+
+</body>
+
+</html>
