@@ -119,7 +119,7 @@ function checkAnswer(index) {
                 document.getElementById('leaderboard').style.display = 'block';
             });
 
-            socket.emit('delete records');// Delete the records in the leaderboard
+            // socket.emit('delete records');// Delete the records in the leaderboard
         }
     });
 }
