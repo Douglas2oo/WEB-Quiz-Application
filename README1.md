@@ -10,24 +10,28 @@ The project is a web-based quiz application. The application asks users a series
 * **BackgroundCSS/demo.css**, **BackgroundCSS/main.css**: These two css files provide parameters for beautifying the background, which is a template I found on the Internet. (Reference: https://www.bootstrapmb.com/item/14752)
 * Navigation Bar Components: 
     * Related Files: **navbar.html**, **navbar.css**, **navbar.js**(empty)
-    * It is fixed at the top of every page so that clients can navigate between pages easily.
-
+    * It is fixed at the top of every page so that clients can navigate between pages easily. And I deployed the navigation bar to other pages using an iframe with the following code:
+    ```html
+    <iframe src="./components/navbar/navbar.html" title="Navigation Bar"></iframe>
 ## Introduction Page(root): 
 * Path: https://staticchief-polkaduet-3000.codio-box.uk and https://staticchief-polkaduet-3000.codio-box.uk/index.html
 * Related Files: **index.html**, **index.css**, **index.js**(empty)
 
+![Index Image](./README_img/index.png)
 This page provides a brief introduction about my study status and some areas of interest. And users can click the "More About Me" link to navigate to About Page to learn more about me. There is nothing in this interface that requires the use of js code for interaction, so the js file associated with it is empty.
 
 ## About Page: 
 * Path: https://staticchief-polkaduet-3000.codio-box.uk/about.html
 * Related Files: **about.html**, **about.css**, **about.js**
 
+![Index Image](./README_img/more.png)
 This page provides some detailed information about my several hobbies. So I created several containers which contain some description and relevant images to help users have a better understanding. And these containers all have a slideshow that automatically show mulitiple images. The implementation of this functionality requires the setting of js code function in **about.js**.
 
 ## Quiz Application Page: 
 * Path: https://staticchief-polkaduet-3000.codio-box.uk/quiz.html
 * Related Files: **quiz.html**, **quiz.css**, **quiz.js**, **server.js**
 
+![Index Image](./README_img/quiz.png)
 This page is a real-time interactive question and answer page. It operates as follows:
 ### Loading Questions:
 The questions stored in **server.js** will be sent to the connected client. When the client connects to the server, it emits a **load questions** event to request the questions.
@@ -70,6 +74,43 @@ The communication between the client and server is managed using Socket.IO, whic
     * **update leaderboard**: The server emits an **update leaderboard** event with the new sorted leaderboard.
     * **delete records**: The server receives the event and redifines the leaderboard as an empty list.
 
+    ```javascript
+    io.on('connection', (socket) => {
+
+        socket.emit('load questions', questions);
+        // sent questions to the quiz page
+
+        // receive the answer from the quiz page
+        socket.on('submit answer', (answer) => {
+            const currentQuestion = answer.questionIndex;
+            const index = answer.answer;
+            // check the answer and sent the result back to the quiz page
+            if (index === questions[currentQuestion].correct) {
+                socket.emit('answer result', true);
+            } else {
+                socket.emit('answer result', false);
+            }
+        });
+
+        socket.on('load leaderboard', (data) => {
+            leaderboard.push(data);
+            // receive the result from the quiz page
+            // add the result to the leaderboard
+            leaderboard.sort((a, b) => b.score - a.score || a.Time - b.Time);
+
+            // sent the updated leaderboard back to the quiz page
+            socket.emit('update leaderboard', leaderboard);
+        });
+
+        socket.on('delete records', () => {
+            leaderboard = [];
+            // clear the leaderboard
+
+            socket.emit('update leaderboard', leaderboard);
+            // sent the updated leaderboard back to the quiz page
+        })
+
+    });
 * Client-side Events:
 
     * **load questions**: When the client connects to the server, it receives questions from the server.
@@ -79,8 +120,66 @@ The communication between the client and server is managed using Socket.IO, whic
     * **update leaderboard**: The client receives the new leaderboard renders it.
     * **delete records**: The client emits a **delete records** event to the server in order to delete all records in the leaderboard.
 
+    ```javascript
+    document.addEventListener('DOMContentLoaded', () => {
+    const socket = io();
 
+    socket.on('load questions', (loadedQuestions) => {
+        console.log('Received questions:', loadedQuestions);
+        questions = loadedQuestions;
+    });
+    // receive the questions from the server
 
+    });
+    ```
+
+    ```javascript
+    const socket = io();
+
+    // Send the answer to the server
+    socket.emit('submit answer', { questionIndex: currentQuestion, answer: index });
+
+    // Receive the result from the server
+    socket.on('answer result', (result) => {
+        document.getElementById('loading').style.display = 'none';
+        if (result) {
+            score++;
+            document.getElementById('feedback').textContent = 'Your answer is correct!';
+        } else {
+            document.getElementById('feedback').textContent = 'Your answer is incorrect!';
+        }
+        if (currentQuestion + 1 < questions.length) {
+            document.getElementById('next-button').style.display = 'block';
+        } else {
+            showResults();
+        }
+        if (currentQuestion + 1 === questions.length) {
+            // if the last question is answered, sent the result to the server
+            socket.emit('load leaderboard', { username: localStorage.getItem('currentUsername'), score: score, Time: Time });
+
+            // Receive the updated leaderboard from the server
+            socket.on("update leaderboard", (leaderboard) => {
+                const leaderboardList = document.getElementById('leaderboard-list');
+                leaderboardList.innerHTML = '';
+
+                leaderboard.forEach((entry, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${entry.username}</td>
+                    <td>${entry.score} points</td>
+                    <td>${entry.Time || 0} seconds</td>
+                `;
+                    leaderboardList.appendChild(tr);
+                });
+
+                document.getElementById('leaderboard').style.display = 'block';
+            });
+
+            // socket.emit('delete records');// Delete the records in the leaderboard
+        }
+    });
+    ```
 ## Socket.IO Usage
 Socket.IO is used for handling these events and ensuring smooth real-time updates. Here's a brief explanation of how it works:
 
@@ -90,4 +189,5 @@ Socket.IO is used for handling these events and ensuring smooth real-time update
 
 ## References
 * CSS Background Template: https://www.bootstrapmb.com/item/14752
-
+* Socket.IO Tutorial Documentation: https://socket.io/docs/v4/
+* W3School Tutorial Documentation: https://www.w3school.com.cn/
