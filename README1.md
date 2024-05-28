@@ -63,7 +63,7 @@ I need to test the integrity of the application so that I have to do the quiz ma
 ## Client-Server Communication
 The communication between the client and server is managed using Socket.IO, which enables real-time, bidirectional communication.
 
-## Event Handling
+### Event Handling
 
 * Server-side Events:
 
