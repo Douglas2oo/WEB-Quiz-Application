@@ -7,12 +7,15 @@ The project is a web-based quiz application. The application asks users a series
 ## Global Configuration:
 * **total.css**: Applies to **index.html**, **about.html** and **quiz.html** files in the project, , providing element style parameters for them, mainly controlling the parameters of the navigation bar component.
 * **server.js**: It creates a simple real-time quiz application using Express and Socket.IO and stores the questions and the data of leaderboard. The server loads and sends questions to the client, and after the client submits an answer, the server validates the answer and returns the result.
+* **leaderboard.json**: It stores the data of the leaderboard and the data will be automatically updated in real time when it is changed.
 * **BackgroundCSS/demo.css**, **BackgroundCSS/main.css**: These two css files provide parameters for beautifying the background, which is a template I found on the Internet. (Reference: https://www.bootstrapmb.com/item/14752)
+
 * Navigation Bar Components: 
     * Related Files: **navbar.html**, **navbar.css**, **navbar.js**(empty)
     * It is fixed at the top of every page so that clients can navigate between pages easily. And I deployed the navigation bar to other pages using an iframe with the following code:
     ```html
     <iframe src="./components/navbar/navbar.html" title="Navigation Bar"></iframe>
+    ```
 ## Introduction Page(root): 
 * Path: https://staticchief-polkaduet-3000.codio-box.uk and https://staticchief-polkaduet-3000.codio-box.uk/index.html
 * Related Files: **index.html**, **index.css**, **index.js**(empty)
@@ -29,7 +32,7 @@ This page provides some detailed information about my several hobbies. So I crea
 
 ## Quiz Application Page: 
 * Path: https://staticchief-polkaduet-3000.codio-box.uk/quiz.html
-* Related Files: **quiz.html**, **quiz.css**, **quiz.js**, **server.js**
+* Related Files: **quiz.html**, **quiz.css**, **quiz.js**, **server.js**, **leaderboard.json**
 
 ![Index Image](./README_img/quiz.png)
 This page is a real-time interactive question and answer page. It operates as follows:
@@ -42,10 +45,9 @@ When a user selects an answer, the client sends the answer index along with the 
 ### Receiving Feedback: 
 The server checks the answer and sends back whether the answer is correct or incorrect. Returning results may take a little time. The client then displays appropriate feedback to the user. And the user can click the "Next Question" button to answer next question.
 ### Displaying Result:
-After the user finishes all 10 questions in the quiz, his or her username, score and time consumed will be sent to the server and added into the leaderboard as a new record. And the leaderboard will also be sorted in the server. Finally, it will be sent to the client. Then the final result will be displayed, containing how many points they score and the time they consume in answering all the questions. What's more, there is a leaderboard which contains users' username, score and time they consume(the fastest user is given advantage if there is an equal number of correct answers). 
+After the user finishes all 10 questions in the quiz, his or her username, score and time consumed will be sent to the server and added into the leaderboard as a new record. And the leaderboard will also be sorted in the server in **leaderboard.json**. Finally, it will be sent to the client. Then the final result will be displayed, containing how many points they score and the time they consume in answering all the questions. And the leaderboard contains users' username, score and time they consume(the fastest user is given advantage if there is an equal number of correct answers). 
 ### Clearing Leaderboard:
 If the website operator want to clear the leaderboard, he or she can go to edit **quiz.js** file, find the part of the checkAnswer function definition where the last line of code is commented out. Uncomment this line, and after doing the whole quiz once, re-comment it and run the website again. This line emits a **delete records** event to the server to set the leaderboard as a empty list.
-
 
 ## Challenges
 ### Real-time Communication
