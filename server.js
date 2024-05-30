@@ -19,7 +19,20 @@ const questions = [
     { question: "Who is the all-time top scorer in UEFA Champions League history?", choices: ["Lionel Messi", "Robert Lewandowski", "Cristiano Ronaldo", "Karim Benzema"], correct: 2 }
 ];
 
+const fs = require('fs');
+const path = './leaderboard.json'
+
 let leaderboard = [];
+
+const saveLeaderboard = () => {
+    fs.writeFileSync(path, JSON.stringify(leaderboard, null, 2), 'utf8');
+};
+
+// Check if leaderboard file exists
+if (fs.existsSync(path)) {
+    const data = fs.readFileSync(path, 'utf8');
+    leaderboard = JSON.parse(data) || [];
+}
 
 app.use(express.static('public'));
 
@@ -46,6 +59,9 @@ io.on('connection', (socket) => {
         // add the result to the leaderboard
         leaderboard.sort((a, b) => b.score - a.score || a.Time - b.Time);
 
+        saveLeaderboard();
+        //Save the leaderboard to the file
+
         // sent the updated leaderboard back to the quiz page
         socket.emit('update leaderboard', leaderboard);
     });
@@ -53,6 +69,9 @@ io.on('connection', (socket) => {
     socket.on('delete records', () => {
         leaderboard = [];
         // clear the leaderboard
+
+        saveLeaderboard();
+        //Save the leaderboard to the file
 
         socket.emit('update leaderboard', leaderboard);
         // sent the updated leaderboard back to the quiz page
@@ -65,4 +84,3 @@ server.listen(3000, () => {
 }).on('error', (err) => {
     console.error('Failed to start server:', err);
 });
-
